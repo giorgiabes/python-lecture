@@ -1,0 +1,47 @@
+def main():
+    time = input("What time is it? ")
+    hours = convert(time)
+
+    if 7 <= hours <= 8:
+        print("breakfast time")
+    elif 12 <= hours <= 13:
+        print("lunch time")
+    elif 18 <= hours <= 19:
+        print("dinner time")
+
+
+def convert(time):
+    time = time.lower()
+
+    # Figure out if it's AM or PM, then isolate just the number
+    if "a.m." in time:
+        is_am = True
+        time = time.replace("a.m.", "").strip() # "7:30 a.m." -> "7:30"
+    elif "p.m." in time:
+        is_pm = True
+        time = time.replace("p.m.", "").strip() # "7:30 p.m." -> "7:30"
+    else:
+        h24 = False # Assume 24-hour format if no a.m./p.m. is found
+
+    hours, minutes = time.split(":")
+    hours = int(hours)
+    minutes = int(minutes)
+
+    # If it's PM and Not 12:xx, we add 12 to convert to 24-hour time
+    # e.g. 7 p.m. -> 7 + 12 = 19
+    # We skip this for 12 p.m. because 12 p.m is already noon (hour 12)
+    if is_pm and hours != 12:
+        hours = hours + 12
+
+    # If it's 12 a.m. (midnight), we set hours to 0
+    # because midnight is the start of the day (hour 0), not hour 12
+    if not is_pm and hours == 12:
+        hours = 0
+
+    # Convert minutes to a fraction of an hour and add to hours
+    # e.g. 30 minutes = 30/60 = 0.5 so 7:30 becomes 7.5
+    return hours + (minutes / 60)
+
+
+if __name__ == "__main__":
+    main()
