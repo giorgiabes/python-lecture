@@ -1,0 +1,15 @@
+{
+  "users": {
+    "alice": {
+      "password": "testpass123",
+      "balance": 100.0,
+      "transactions": [
+        {
+          "type": "deposit",
+          "amount": 100.0,
+          "at": "2026-04-27T20:41:28"
+        }
+      ]
+    }
+  }
+}
