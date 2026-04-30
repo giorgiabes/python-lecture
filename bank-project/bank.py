@@ -79,15 +79,36 @@ def add_transaction(user, entry):
     )
 
 
+def deposit(username):
+    amount = read_amount("Amount to deposit: $")
+    if amount is None:
+        return
+    db = load_db()
+    user = db["users"][username]
+    user["balance"] += amount
+    add_transaction(
+        user,
+        {
+            "type": "deposit",
+            "amount": amount,
+        },
+    )
+    save_db(db)
+    print(f"Deposited ${amount:.2f}. New balance: ${user['balance']:.2f}")
+
+
 def user_menu(username):
     while True:
         print(f"\n--- Logged in as {username} ---")
         print("1. Check balance")
-        print("2. Logout")
+        print("2. Deposit")
+        print("3. Logout")
         choice = input("Choose an option: ").strip()
         if choice == "1":
             show_balance(username)
         elif choice == "2":
+            deposit(username)
+        elif choice == "3":
             print("Logged out.")
             return
         else:
