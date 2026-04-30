@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime
 from getpass import getpass
 
 DB_FILE = "db.json"
@@ -51,6 +52,48 @@ def login():
     return username
 
 
+def show_balance(username):
+    db = load_db()
+    print(f"Current blanace: ${db['users'][username]['balance']:.2f}")
+
+
+def read_amount(prompt):
+    raw = input(prompt).strip()
+    try:
+        amount = float(raw)
+    except ValueError:
+        print("That's not valid number.")
+        return None
+    if amount <= 0:
+        print("Amount must be greater thant zero")
+        return None
+    return round(amount, 2)
+
+
+def add_transaction(user, entry):
+    user["transactions"].append(
+        {
+            **entry,
+            "at": datetime.now().isoformat(timespec="seconds"),
+        }
+    )
+
+
+def user_menu(username):
+    while True:
+        print(f"\n--- Logged in as {username} ---")
+        print("1. Check balance")
+        print("2. Logout")
+        choice = input("Choose an option: ").strip()
+        if choice == "1":
+            show_balance(username)
+        elif choice == "2":
+            print("Logged out.")
+            return
+        else:
+            print("Invalid choice.")
+
+
 def main():
     while True:
         print("\n=== Simple Bank ===")
@@ -63,7 +106,7 @@ def main():
         elif choice == "2":
             user = login()
             if user:
-                print(f"(Banking menu for '{user}' comming in the next lecture)")
+                user_menu(user)
         elif choice == "3":
             print("Goodbye!")
             return
