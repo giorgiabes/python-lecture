@@ -39,15 +39,32 @@ def register():
     print(f"Account created for '{username}'")
 
 
+def login():
+    username = input("Username: ").strip()
+    password = getpass("Password: ")
+    db = load_db()
+    user = db["users"].get(username)
+    if user is None or user["password"] != password:
+        print("Invalid username or password")
+        return None
+    print(f"Welcome back, {username}")
+    return username
+
+
 def main():
     while True:
         print("\n=== Simple Bank ===")
         print("1. Register")
-        print("2. Quit")
+        print("2. Login")
+        print("3. Quit")
         choice = input("Choose an option: ").strip()
         if choice == "1":
             register()
         elif choice == "2":
+            user = login()
+            if user:
+                print(f"(Banking menu for '{user}' comming in the next lecture)")
+        elif choice == "3":
             print("Goodbye!")
             return
         else:
