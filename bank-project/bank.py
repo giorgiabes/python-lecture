@@ -158,30 +158,53 @@ def show_history(username):
 
 
 def user_menu(username):
+    actions = {
+        "1": ("Check balance", show_balance),
+        "2": ("Deposit", deposit),
+        "3": ("Withdraw", withdraw),
+        "4": ("Transfer", transfer),
+        "5": ("Transaction history", show_history),
+    }
     while True:
-        print(f"\n--- Logged in as {username} ---")
-        print("1. Check balance")
-        print("2. Deposit")
-        print("3. Withdraw")
-        print("4. Transfer")
-        print("5. Transaction history")
+        print(f"\n--- Logged in as ${username} ---")
+        for key, (label, _) in actions.items():
+            print(f"{key}. {label}")
         print("6. Logout")
         choice = input("Choose an option: ").strip()
-        if choice == "1":
-            show_balance(username)
-        elif choice == "2":
-            deposit(username)
-        elif choice == "3":
-            withdraw(username)
-        elif choice == "4":
-            transfer(username)
-        elif choice == "5":
-            show_history(username)
+        if choice in actions:
+            actions[choice][1](username)
         elif choice == "6":
             print("Logged out.")
             return
         else:
             print("Invalid choice.")
+
+
+# def user_menu(username):
+#     while True:
+#         print(f"\n--- Logged in as {username} ---")
+#         print("1. Check balance")
+#         print("2. Deposit")
+#         print("3. Withdraw")
+#         print("4. Transfer")
+#         print("5. Transaction history")
+#         print("6. Logout")
+#         choice = input("Choose an option: ").strip()
+#         if choice == "1":
+#             show_balance(username)
+#         elif choice == "2":
+#             deposit(username)
+#         elif choice == "3":
+#             withdraw(username)
+#         elif choice == "4":
+#             transfer(username)
+#         elif choice == "5":
+#             show_history(username)
+#         elif choice == "6":
+#             print("Logged out.")
+#             return
+#         else:
+#             print("Invalid choice.")
 
 
 def main():
