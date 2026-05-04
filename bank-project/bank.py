@@ -112,13 +112,43 @@ def withdraw(username):
     print(f"Withdrew ${amount:.2f}. New balance: ${user['balance']}")
 
 
+def transfer(username):
+    recipient = input("Recipient username: ").strip()
+    db = load_db()
+    if recipient not in db["users"]:
+        print("That user does not exist.")
+        return
+    if recipient == username:
+        print("You cannot transfer to yourself.")
+        return
+    amount = read_amount("Amount to transfer: $")
+    if amount is None:
+        return
+    sender = db["users"][username]
+    if sender["balance"] < amount:
+        print("Insufficient funds.")
+        return
+    receiver = db["users"][recipient]
+    sender["balance"] -= amount
+    receiver["balance"] += amount
+    add_transaction(sender, {"type": "transfer_out", "amount": amount, "to": recipient})
+    add_transaction(
+        receiver, {"type": "transfer_in", "amount": amount, "from": username}
+    )
+    save_db(db)
+    print(
+        f"Transferred ${amount:.2f} to {recipient}. New balance: ${sender['balance']:.2f}"
+    )
+
+
 def user_menu(username):
     while True:
         print(f"\n--- Logged in as {username} ---")
         print("1. Check balance")
         print("2. Deposit")
         print("3. Withdraw")
-        print("4. Logout")
+        print("4. Transfer")
+        print("5. Logout")
         choice = input("Choose an option: ").strip()
         if choice == "1":
             show_balance(username)
@@ -127,6 +157,8 @@ def user_menu(username):
         elif choice == "3":
             withdraw(username)
         elif choice == "4":
+            transfer(username)
+        elif choice == "5":
             print("Logged out.")
             return
         else:
