@@ -97,18 +97,36 @@ def deposit(username):
     print(f"Deposited ${amount:.2f}. New balance: ${user['balance']:.2f}")
 
 
+def withdraw(username):
+    amount = read_amount("Amount to withdraw: $")
+    if amount is None:
+        return
+    db = load_db()
+    user = db["users"][username]
+    if user["balance"] < amount:
+        print("Insufficient funds.")
+        return
+    user["balance"] -= amount
+    add_transaction(user, {"type": "withdraw", "amount": amount})
+    save_db(db)
+    print(f"Withdrew ${amount:.2f}. New balance: ${user['balance']}")
+
+
 def user_menu(username):
     while True:
         print(f"\n--- Logged in as {username} ---")
         print("1. Check balance")
         print("2. Deposit")
-        print("3. Logout")
+        print("3. Withdraw")
+        print("4. Logout")
         choice = input("Choose an option: ").strip()
         if choice == "1":
             show_balance(username)
         elif choice == "2":
             deposit(username)
         elif choice == "3":
+            withdraw(username)
+        elif choice == "4":
             print("Logged out.")
             return
         else:
