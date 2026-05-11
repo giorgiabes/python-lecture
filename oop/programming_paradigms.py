@@ -70,5 +70,7 @@ class Dog:
         status = self.get_status()
         return f"My dog {self.name} is a {self.breed} ({status})"
 
-my_dog = Dog(name, age, breed)
+my_dog = Dog("willie", age, breed)
+your_dog = Dog("Bajo", 3, "metskhvare")
 print(my_dog.describe())
+print(your_dog.describe())
