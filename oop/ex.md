@@ -1,8 +1,9 @@
-Exercises:
-=========
+# Exercises
 
-ex1.py 
-------
+```shell
+ex1.py
+```
+
 Restaurant: Make a class called Restaurant. The __init__() method for
 Restaurant should store two attributes: a restaurant_name and a cuisine_type.
 Make a method called describe_restaurant() that prints these two pieces of
@@ -14,12 +15,14 @@ butes individually, and then call both methods.
 
 ex2.py
 ------
+
 Three Restaurants: Start with your class from "ex2.py" Create three
 different instances from the class, and call describe_restaurant() for each
 instance.
 
 ex3.py
 ------
+
 Users: Make a class called User. Create two attributes called first_name and
 last_name, and then create several other attributes that are typically stored
 in a user profile. Make a method called describe_user() that prints a summary
@@ -31,6 +34,7 @@ for each user.
 
 ex4.py
 ------
+
 Number Served: Start with your program from "ex1.py"
 Add an attribute called number_served with a default value of 0. Create an
 instance called restaurant from this class. Print the number of customers the
@@ -47,8 +51,9 @@ day of business.
 
 ex5.py
 ------
+
 Login Attempts: Add an attribute called login_attempts to your User
-class from Exercise 3. Write a method called increment_login_attempts() 
+class from Exercise 3. Write a method called increment_login_attempts()
 that increments the value of login_attempts by 1. Write
 another method called reset_login_attempts() that resets the value of login_
 attempts to 0.
