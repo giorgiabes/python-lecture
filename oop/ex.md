@@ -1,8 +1,8 @@
 # Exercises
 
-```shell
-ex1.py
-```
+## ex1.py
+
+----
 
 Restaurant: Make a class called Restaurant. The __init__() method for
 Restaurant should store two attributes: a restaurant_name and a cuisine_type.
