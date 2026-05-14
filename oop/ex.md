@@ -2,26 +2,22 @@
 
 ## ex1.py
 
-----
-
-Restaurant: Make a class called Restaurant. The __init__() method for
+Restaurant: Make a class called Restaurant. The `__init__()` method for
 Restaurant should store two attributes: a restaurant_name and a cuisine_type.
-Make a method called describe_restaurant() that prints these two pieces of
-information, and a method called open_restaurant() that prints a message indi-
-cating that the restaurant is open.
+Make a method called `describe_restaurant()` that prints these two pieces of
+information, and a method called open_restaurant() that prints a message
+indicating that the restaurant is open.
 
-Make an instance called restaurant from your class. Print the two attri-
-butes individually, and then call both methods.
+Make an instance called restaurant from your class. Print the two attributes
+individually, and then call both methods.
 
-ex2.py
-------
+## ex2.py
 
 Three Restaurants: Start with your class from "ex2.py" Create three
 different instances from the class, and call describe_restaurant() for each
 instance.
 
-ex3.py
-------
+## ex3.py
 
 Users: Make a class called User. Create two attributes called first_name and
 last_name, and then create several other attributes that are typically stored
@@ -32,8 +28,7 @@ a personalized greeting to the user.
 Create several instances representing different users, and call both methods
 for each user.
 
-ex4.py
-------
+## ex4.py
 
 Number Served: Start with your program from "ex1.py"
 Add an attribute called number_served with a default value of 0. Create an
@@ -49,8 +44,7 @@ the number of customers who’ve been served. Call this method with any num-
 ber you like that could represent how many customers were served in, say, a
 day of business.
 
-ex5.py
-------
+## ex5.py
 
 Login Attempts: Add an attribute called login_attempts to your User
 class from Exercise 3. Write a method called increment_login_attempts()
