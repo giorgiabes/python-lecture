@@ -1,0 +1,14 @@
+{
+  "users": {
+    "alice": {
+      "password": "testpass123",
+      "balance": 0.0,
+      "transactions": []
+    },
+    "bob": {
+      "password": "testpass123",
+      "balance": 0.0,
+      "transactions": []
+    }
+  }
+}
