@@ -2,13 +2,19 @@
   "users": {
     "alice": {
       "password": "testpass123",
-      "balance": 0.0,
-      "transactions": []
-    },
-    "bob": {
-      "password": "testpass123",
-      "balance": 0.0,
-      "transactions": []
+      "balance": 200.0,
+      "transactions": [
+        {
+          "type": "deposit",
+          "amount": 100.0,
+          "at": "2026-05-28T21:31:46"
+        },
+        {
+          "type": "deposit",
+          "amount": 100.0,
+          "at": "2026-05-28T21:35:34"
+        }
+      ]
     }
   }
 }

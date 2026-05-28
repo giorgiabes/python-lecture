@@ -47,6 +47,8 @@ class Account:
         self.transactions = transactions if transactions is not None else []
 
     def deposit(self, amount):
+        if amount < 0:
+            return
         self.balance += amount
         self.transactions.append(Transactions("deposit", amount))
 
@@ -141,11 +143,14 @@ class BankApp:
         while True:
             print("\n=== Mega Bank ===")
             print("1. Register")
-            print("2. Quit")
+            print("2. Login")
+            print("3. Quit")
             choice = input("Choose an option: ").strip()
             if choice == "1":
                 self._register()
             elif choice == "2":
+                self._login()
+            elif choice == "3":
                 print("Goodbye!")
                 return
             else:
@@ -178,7 +183,76 @@ class BankApp:
             return
         self.current_user = account
         print(f"Welcome back, {account.username}")
-        print("(Bank menu comming in the next lecture)")
+        self._user_menu()
+
+    def _user_menu(self):
+        while True:
+            user = self.current_user
+            if user is None:
+                return
+            print(f"\n--- Logged in as {user.username} ---")
+            print("1. Check balance")
+            print("2. Deposit")
+            print("3. Withdraw")
+            print("4. Logout")
+            choice = input("Choose an option: ").strip()
+            if choice == "1":
+                self._show_balance()
+            elif choice == "2":
+                self._deposit()
+            elif choice == "3":
+                self._withdraw()
+            elif choice == "4":
+                print("Logged out.")
+                self.current_user = None
+                return
+            else:
+                print("Invalid choice.")
+
+    def _show_balance(self):
+        user = self.current_user
+        if user is None:
+            return
+        print(f"Current balance: ${user.balance:.2f}")
+
+    def _read_amount(self, prompt):
+        raw = input(prompt).strip()
+        try:
+            amount = float(raw)
+        except ValueError:
+            print("That's not valid number.")
+            return None
+        return round(amount, 2)
+
+    def _deposit(self):
+        amount = self._read_amount("Amount to deposit: $")
+        user = self.current_user
+        if amount is None:
+            return
+        if amount < 0:
+            print("deposit cannot be negativ number")
+            return
+        if user is None:
+            return
+
+        user.deposit(amount)
+        self.bank.save()
+        print(f"Deposited ${amount:.2f}. New balance: ${user.balance:.2f}")
+
+    def _withdraw(self):
+        user = self.current_user
+        if user is None:
+            return
+        amount = self._read_amount("Amount to withdraw: $")
+        if amount is None:
+            return
+        try:
+            user.withdraw(amount)
+        except ValueError as e:
+            print(e)
+            return
+        self.bank.save()
+        print(f"Withdrew ${amount:.2f}. New balance: ${user.balance:.2f}")
 
 
 if __name__ == "__main__":
