@@ -133,6 +133,18 @@ class Bank:
             return None
         return account
 
+    def transfer(self, sender, recipient_username, amount):
+        if recipient_username == sender.username:
+            raise ValueError("You cannot transfer to yourself.")
+        recipient = self.accounts.get(recipient_username)
+        if recipient is None:
+            raise ValueError("That user doesnot exist.")
+        if amount > sender.balance:
+            raise ValueError("Insufficient funds.")
+        sender.record_transfer_out(amount, to=recipient_username)
+        recipient.record_transfer_in(amount, from_=sender.username)
+        self.save()
+
 
 class BankApp:
     def __init__(self):
@@ -194,7 +206,9 @@ class BankApp:
             print("1. Check balance")
             print("2. Deposit")
             print("3. Withdraw")
-            print("4. Logout")
+            print("4. Transfer")
+            print("5. Transaction history")
+            print("6. Logout")
             choice = input("Choose an option: ").strip()
             if choice == "1":
                 self._show_balance()
@@ -203,6 +217,10 @@ class BankApp:
             elif choice == "3":
                 self._withdraw()
             elif choice == "4":
+                self._transfer()
+            elif choice == "5":
+                self._show_history()
+            elif choice == "6":
                 print("Logged out.")
                 self.current_user = None
                 return
@@ -253,6 +271,40 @@ class BankApp:
             return
         self.bank.save()
         print(f"Withdrew ${amount:.2f}. New balance: ${user.balance:.2f}")
+
+    def _transfer(self):
+        user = self.current_user
+        if user is None:
+            return
+        recipient = input("Recipient username: ").strip()
+        amount = self._read_amount("Amount to transfer: $")
+        if amount is None:
+            return
+        try:
+            self.bank.transfer(self.current_user, recipient, amount)
+        except ValueError as e:
+            print(e)
+            return
+        print(
+            f"Transferred ${amount:.2f} to {recipient}. New balance: ${user.balance:.2f}"
+        )
+
+    def _show_history(self):
+        user = self.current_user
+        if user is None:
+            return
+        txs = user.transactions
+        if not txs:
+            print("No transactions yet.")
+            return
+        print("\n--- Transaction History ---")
+        for t in txs:
+            line = f"[{t.at}] {t.type:<13} ${t.amount:.2f}"
+            if t.to is not None:
+                line += f" -> {t.to}"
+            if t.from_ is not None:
+                line += f" <- {t.from_}"
+            print(line)
 
 
 if __name__ == "__main__":
